@@ -1,0 +1,31 @@
+service:
+  name: sample-sqs-lambda
+
+plugins:
+  - serverless-bundle
+  - serverless-pseudo-parameters
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  memorySize: 128
+  timeout: 10
+  stage: ${opt:stage, 'test'}
+  region: ${opt:region, 'us-east-2'}
+  logRetentionInDays: 7
+  
+functions:
+  hello:
+    handler: src/handlers/hello.handler
+    events:
+      - sqs:
+          batchSize: 10
+          maximumRetryAttempts: 1
+          arn: arn:aws:sqs:us-east-2:291386653339:sampl-queue1
+  qtweet:
+    handler: src/handlers/qtweet.processor
+    events:
+      - sqs:
+          batchSize: 10
+          maximumRetryAttempts: 1
+          arn: arn:aws:sqs:us-east-2:291386653339:qtweets-sqs
