@@ -1,16 +1,18 @@
 version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@2.0.0
-  serverless: circleci/serverless-framework@1.0
+  node: circleci/node@4.3.0
 jobs:
-   one:
-     executor: serverless/default
+   build_and_deploy:
+     docker:
+        - image: cimg/node:14.16.1
      steps:
        - checkout
        - aws-cli/setup
-       - serverless/setup
+       - run: sudo npm i -g serverless npm@latest
+       - run: npm install
        - run: sls deploy 
 workflows:
-  one_and_two:
+  sqs-lambda-flow:
     jobs:
-      - one 
+      - build_and_deploy
