@@ -28,4 +28,4 @@ functions:
       - sqs:
           batchSize: 10
           maximumRetryAttempts: 1
-          arn: arn:aws:sqs:us-east-2:291386653339:qtweets-sqs
+          arn: arn:aws:sqs:us-east-2:291386653339:qtweets-sqs 
